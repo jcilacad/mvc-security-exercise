@@ -17,8 +17,13 @@ public class MainControllerSecurityConfig {
     @Bean
     public UserDetailsManager userDetailsManager(DataSource datasource) {
 
-        return new JdbcUserDetailsManager(datasource);
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(datasource);
 
+        jdbcUserDetailsManager.setUsersByUsernameQuery("select * from members where user_id=?");
+
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select * from roles where user_id=?");
+
+        return jdbcUserDetailsManager;
     }
 
 
